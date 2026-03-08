@@ -1,0 +1,9 @@
+.env
+
+ig_state/
+
+last_post.json
+last_reel.json
+
+*.png
+*_debug.html
