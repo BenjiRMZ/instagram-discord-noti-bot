@@ -509,6 +509,18 @@ async function getLatestReel(page, username) {
     }
 
     const items = await getFeedItems(page, username);
+    console.log("🎬 Feed API returned items for reel check:", items?.length || 0);
+
+if (items?.length) {
+    console.log("🎬 First 5 reel-check items:");
+    items.slice(0, 5).forEach((item, i) => {
+        console.log(i, {
+            code: item?.code,
+            product_type: item?.product_type,
+            media_type: item?.media_type
+        });
+    });
+}
 
     if (items && items.length) {
         const reelItems = items.filter(item =>
@@ -535,6 +547,13 @@ async function getLatestReel(page, username) {
 
     console.log("⚠️ API reel lookup returned nothing. Falling back to DOM scan.");
     await sleep(4000);
+
+    console.log("🎬 DOM reel links found:", await page.evaluate(() =>
+    Array.from(document.querySelectorAll("a"))
+        .map(a => a.href)
+        .filter(href => href.includes("/reel/"))
+        .slice(0, 10)
+));
 
     const reelUrl = await page.evaluate(() => {
         const links = Array.from(document.querySelectorAll("a"))
@@ -666,4 +685,5 @@ main().catch(err => {
     console.error("❌ Run failed:", err?.message || err);
     process.exit(1);
 });
+
 
