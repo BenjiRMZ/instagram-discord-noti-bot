@@ -617,10 +617,6 @@ async function main() {
     const browser = await launchBrowser();
     const page = await browser.newPage();
 
-    await page.setUserAgent(
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
-    );
-
     try {
         if (MANUAL_LOGIN_MODE) {
             await runManualLoginMode(page);
@@ -685,5 +681,6 @@ main().catch(err => {
     console.error("❌ Run failed:", err?.message || err);
     process.exit(1);
 });
+
 
 
