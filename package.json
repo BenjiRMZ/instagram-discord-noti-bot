@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+    "postinstall": "npx puppeteer browsers install chrome",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
