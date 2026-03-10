@@ -1,6 +1,5 @@
 ﻿require("dotenv").config();
-const puppeteer = require("puppeteer-core");
-const chromium = require("@sparticuz/chromium");
+const puppeteer = require("puppeteer");
 const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
@@ -76,22 +75,19 @@ async function saveDebugHtml(page, name = "debug") {
 }
 
 async function launchBrowser() {
-  const executablePath = await chromium.executablePath();
-
-  return puppeteer.launch({
-    headless: true,
-    executablePath,
-    args: [
-      ...chromium.args,
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage"
-    ],
-    defaultViewport: {
-      width: 1366,
-      height: 900
-    }
-  });
+    return puppeteer.launch({
+        headless: HEADLESS,
+        userDataDir: STATE_DIR,
+        executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        args: [
+            "--no-sandbox",
+            "--disable-setuid-sandbox"
+        ],
+        defaultViewport: {
+            width: 1366,
+            height: 900
+        }
+    });
 }
 
 async function isInstagramLoadError(page) {
@@ -681,6 +677,7 @@ main().catch(err => {
     console.error("❌ Run failed:", err?.message || err);
     process.exit(1);
 });
+
 
 
 
