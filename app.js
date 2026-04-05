@@ -7,7 +7,7 @@ const path = require("path");
 const INSTAGRAM_USERNAME = process.env.IG_USERNAME;
 const INSTAGRAM_PASSWORD = process.env.IG_PASSWORD;
 const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
-const TARGET_IG = process.env.IG_TARGET_USERNAME || "sayravr";
+const TARGET_IG = process.env.IG_TARGET_USERNAME;
 
 const HEADLESS = process.env.HEADLESS === "true";
 const MANUAL_LOGIN_MODE = process.env.MANUAL_LOGIN_MODE === "true";
