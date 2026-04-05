@@ -1,5 +1,6 @@
 .env
-
+.env.*
+dist/
 ig_state/
 
 last_post.json
