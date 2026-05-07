@@ -19,7 +19,9 @@ A bot that monitors Instagram activity and sends real-time notifications to a Di
 
 ---
 
-## 🚀 Setup
-
-```bash
-npm install
+## Setup
+1. `npm install`
+2. `.env.example` → `.env` kopieren und ausfüllen:
+   - `INSTAGRAM_USERNAME=dein_account`
+   - `DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/...`
+3. `node app.js`
