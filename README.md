@@ -32,14 +32,14 @@ Instagram Profile
        └── New reel? ──►        └── saves URL to last_post.json / last_reel.json
 ```
 
-1. Launches a Chromium browser with a persistent session directory (`ig_state/`)
-2. Checks if the session is still logged in — logs in automatically if not
-3. Calls Instagram's internal feed API to get the latest posts and reels
-4. Compares each against the last seen URL stored locally
-5. Sends a Discord embed if something new is found, then saves the URL
+Each run does one check and exits — it's meant to be called by a scheduler (like cron) every 10–15 minutes, not left running continuously.
 
-The bot is designed to be run on a schedule (e.g. cron every 10–15 minutes). It does not run continuously.
-
+The basic flow:
+1. Launch a browser with a saved session from the last run
+2. If the session expired, log in again (or wait for manual login if 2FA is needed)
+3. Hit Instagram's internal feed API to get the latest posts and reels
+4. Compare each against the last seen URL stored in a local JSON file
+5. If something changed, send a Discord embed and update the saved URL
 ---
 
 ## Setup
@@ -109,6 +109,6 @@ Create a task that runs `node app.js` from the project directory on a 10-minute 
 
 ## Known limitations
 
-- Instagram occasionally changes its internal API structure or CSS class names, which can break image extraction. The debug HTML files help diagnose this.
-- If Instagram forces a security challenge mid-run, the bot will throw and exit. Re-run with `MANUAL_LOGIN_MODE=true HEADLESS=false` to resolve it.
-- The bot monitors one target account at a time. To monitor multiple accounts, run separate instances with different `.env` files.
+- Instagram changes its internal structure occasionally, which can break image extraction. The debug HTML files are the first place to look when that happens.
+- If Instagram triggers a security challenge mid-run, the bot exits and you'll need to re-run with `MANUAL_LOGIN_MODE=true HEADLESS=false` to clear it manually.
+- One target account per instance. To monitor multiple accounts, run separate copies with different `.env` files.
