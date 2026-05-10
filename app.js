@@ -4,9 +4,6 @@
  * Checks a target Instagram account for new posts and reels,
  * and sends a Discord webhook notification when something new shows up.
  *
- * I built this to avoid checking Instagram manually — it runs on a cron schedule,
- * does one check, and exits. No long-running process needed.
- *
  * How a run works:
  *   1. Launch a browser using the saved session from last time
  *   2. If the session is gone, log in again (or prompt for manual login if 2FA blocks it)
@@ -42,7 +39,7 @@ const HEADLESS          = process.env.HEADLESS === "true";
 const MANUAL_LOGIN_MODE = process.env.MANUAL_LOGIN_MODE === "true";
 
 // Puppeteer saves cookies and localStorage here so we stay logged in between runs.
-// Without this, every run would be a fresh browser and Instagram would flag it fast.
+// Without this every run would be a fresh browser and Instagram would flag it fast.
 const STATE_DIR = process.env.STATE_DIR || path.join(__dirname, "ig_state");
 
 // These files store the URL from the last seen post/reel.
@@ -142,7 +139,6 @@ async function isInstagramLoadError(page) {
 }
 
 // Instagram shows a checkpoint when it thinks the login looks suspicious.
-// This requires manual action (email/phone confirm) — the bot can't get past it alone.
 async function detectCheckpoint(page) {
     const url = page.url();
 
@@ -163,7 +159,7 @@ async function detectCheckpoint(page) {
 }
 
 // Checks three things: no login form visible, not on the login URL, and no
-// "log in / sign up" text — all three need to pass for us to trust the session.
+// "log in / sign up" text, all three need to pass for us to trust the session.
 async function pageLooksLoggedIn(page) {
     const url           = page.url();
     const body          = (await page.evaluate(() => document.body?.innerText?.slice(0, 2500) || "")).toLowerCase();
@@ -246,7 +242,7 @@ async function loginInstagram(page) {
 }
 
 // Checks if we're already logged in from the saved session.
-// Only calls loginInstagram() if we're not — avoids unnecessary logins.
+// Only calls loginInstagram() if we're not. Avoids unnecessary logins.
 async function ensureLoggedIn(page) {
     await gotoWithRetries(page, "https://www.instagram.com/");
 
@@ -412,7 +408,7 @@ async function getMediaPageData(page, mediaUrl, isReel = false) {
 // Post and reel fetching
 // ============================================================================
 
-// Finds the latest non-pinned, non-reel post for the given account.
+// Finds the latest non pinned, non-reel post for the given account.
 //
 // Tries the feed API first since it's fast and structured.
 // Falls back to scanning DOM links if the API returns nothing.
