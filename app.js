@@ -498,8 +498,8 @@ async function getLatestPost(page, username) {
     };
 }
 
-// Finds the latest non-pinned reel for the given account.
-// Same strategy as getLatestPost — API first, DOM fallback second.
+// Finds the latest non pinned reel for the given account.
+// Same strategy as getLatestPost. API first, DOM fallback second.
 //
 // One quirk: the first few /reel/ links in the DOM tend to be UI navigation elements
 // rather than actual content, so we skip them and take the 4th unique one.
